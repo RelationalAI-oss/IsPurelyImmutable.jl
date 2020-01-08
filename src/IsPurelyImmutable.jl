@@ -1,13 +1,13 @@
 module IsPurelyImmutable
 
-export ispure
+export is_purely_immutable
 
 # TODO:
-# - Currently ispure returns true for functions (b/c functions are isimmutable). Is this
+# - Currently is_purely_immutable returns true for functions (b/c functions are isimmutable). Is this
 #   desirable? Functions are _logically_ mutable in julia, b/c you can add/remove methods.
 
 """
-    ispure(val)
+    is_purely_immutable(val) :: Bool
 
 A trait function that returns true if a value is purely immutable, meaning its value can
 never change in any way from the value it currently holds, and thus is safe to use in purely
@@ -34,21 +34,21 @@ for concrete types. See the Julia Docs section on [Mutable Composite
 Types](https://docs.julialang.org/en/v1/manual/types/#Mutable-Composite-Types-1) for more on
 the meaning of `immutable` in Julia.
 """
-function ispure end
+function is_purely_immutable end
 
 # Default implementation that checks for recursively immutable types
-function ispure(@nospecialize(x))
+function is_purely_immutable(@nospecialize(x))
     Base.@_pure_meta  # Allow the compiler to elide this function where possible.
-    (isimmutable(x) && all(ispure(getfield(x, f)) for f in fieldnames(typeof(x)))
+    (isimmutable(x) && all(is_purely_immutable(getfield(x, f)) for f in fieldnames(typeof(x)))
         || #= is mutable && =# fieldcount(typeof(x)) == 0)
 end
 
 # Extension for purely immutable data types that aren't julia `immutable`
-ispure(x::Union{String, Symbol}) = true
+is_purely_immutable(x::Union{String, Symbol}) = true
 
 # Explicitly mark false because because Arrays are _mutable structs w/ no fields_, but
 # they have _secret_ fields implemented in C.
-ispure(x::Array) = false
+is_purely_immutable(x::Array) = false
 
 
 end # module
