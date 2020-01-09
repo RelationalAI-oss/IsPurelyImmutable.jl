@@ -37,14 +37,14 @@ the meaning of `immutable` in Julia.
 function is_purely_immutable end
 
 # Default implementation that checks for recursively immutable types
-function is_purely_immutable(@nospecialize(x))::Bool
+function is_purely_immutable(@nospecialize(x))
     isbitstype(typeof(x)) ||
         # If not isbitstype, fall back to the generated function (non-isbits structs)
         _nonisbits_is_purely_immutable(x)
 end
 
 # Generated function for non-isbits structs to generate a recursive call over all fields.
-@inline @generated function _nonisbits_is_purely_immutable(x)::Bool
+@inline @generated function _nonisbits_is_purely_immutable(x)
     :(if isimmutable(x)
         # Recursive call to is_purely_immutable for each field of x.
         $([
