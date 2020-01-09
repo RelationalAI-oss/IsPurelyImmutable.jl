@@ -1,6 +1,6 @@
 # IsPurelyImmutable.jl
 
-[![Build Status](https://travis-ci.com/NHDaly/IsPurelyImmutable.jl.svg?branch=master)](https://travis-ci.com/NHDaly/IsPurelyImmutable.jl)
+[![Build Status](https://travis-ci.com/RelationalAI-oss/IsPurelyImmutable.jl.svg?branch=master)](https://travis-ci.com/RelationalAI-oss/IsPurelyImmutable.jl)
 
 This package simply provides a small trait function, `is_purely_immutable(x)`, which checks
 if a value is deeply, purely (i.e. recursively), logically immutable.
