@@ -61,10 +61,6 @@ end
 # Extension for purely immutable data types that aren't julia `immutable`
 is_purely_immutable(::Union{String, Symbol}) = true
 
-# Explicitly mark false because because Arrays are _mutable structs w/ no fields_, but
-# they have _secret_ fields implemented in C.
-is_purely_immutable(::Array) = false
-
 # Add overloads for Types, because you can't take `fieldcount()` of these types
 # TODO: Is this right? Are DataTypes not purely immutable? Can they change?
 # ... Maybe it's because they can change slightly if the user like adds a constructor or something?
